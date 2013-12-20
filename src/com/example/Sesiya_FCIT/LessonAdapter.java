@@ -18,14 +18,14 @@ import java.util.List;
  */
 public class LessonAdapter extends BaseAdapter
 {
-    public LessonAdapter(Context c, List<Object[]> lessons, int k)
+    public LessonAdapter(Context c, List<Object[]> lessons)
     {
-        this.lessons = lessons; this.column = k;
+        this.lessons = lessons;
         inflater = LayoutInflater.from(c);
     }
 
     List<Object[]> lessons;
-    int column;
+
     LayoutInflater inflater;
 
 
@@ -47,19 +47,32 @@ public class LessonAdapter extends BaseAdapter
         return position;
     }
 
+    static int[] rowIds = new int[]{R.id.group,
+            R.id.date,
+            R.id.subject,
+            R.id.type,
+            R.id.teacher,
+            R.id.room};
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Object[] lesson =(Object[]) getItem(position) ;
         View v = convertView;
-        TextView title;
+        TextView[] row;
         if (convertView == null || convertView.getTag()==null){
             v = inflater.inflate(R.layout.row, null);
-            title = (TextView) v.findViewById(R.id.title);
 
-            v.setTag(title);
+            row = new TextView[rowIds.length];
+            for(int i=0; i<row.length; i++)
+                row[i]=(TextView) v.findViewById(rowIds[i]);
+
+            v.setTag(row);
         }
-        title = (TextView)v.getTag();
-        title.setText(lesson[column].toString());
+        row = (TextView[])v.getTag();
+
+        for(int i=0; i<row.length; i++)
+            row[i].setText(lesson[i].toString());
+
         return v;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

@@ -1,21 +1,16 @@
 package com.example.Sesiya_FCIT;
 
 import android.app.Activity;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.*;
-import com.example.Sesiya_FCIT.DatabaseHelper;
-import com.example.Sesiya_FCIT.R;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +28,7 @@ public class MyActivity extends Activity
 
     List<Object[]> lessons = new ArrayList<Object[]>();
 
-    ListView lvDate;
-    ListView lvGroup;
-    ListView lvTeacher;
-    ListView lvSubject;
-    ListView lvRoom;
-    ListView lvTypeOfLesson;
+    ListView lessonsLv = null;
 
     Spinner spnrTeachers;
     Spinner spnrGroups;
@@ -58,29 +48,18 @@ public class MyActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.main2);
 
-        tvShowOnlyName = (TextView)findViewById(R.id.tvShowOnlyName);
+        //tvShowOnlyName = (TextView)findViewById(R.id.tvShowOnlyName);
 
-        lvDate = (ListView) findViewById(R.id.lvDate);
-        lvGroup = (ListView) findViewById(R.id.lvGroup);
-        lvTeacher = (ListView) findViewById(R.id.lvTeacher);
-        lvSubject = (ListView) findViewById(R.id.lvSubject);
-        lvRoom = (ListView) findViewById(R.id.lvRoom);
-        lvTypeOfLesson = (ListView)findViewById(R.id.lvTypeOfLesson);
+        lessonsLv = (ListView) findViewById(R.id.listLessons);
 
-        lvGroup.setCacheColorHint(Color.TRANSPARENT);
-        lvDate.setCacheColorHint(Color.TRANSPARENT);
-        lvRoom.setCacheColorHint(Color.TRANSPARENT);
-        lvTypeOfLesson.setCacheColorHint(Color.TRANSPARENT);
-        lvSubject.setCacheColorHint(Color.TRANSPARENT);
-        lvTeacher.setCacheColorHint(Color.TRANSPARENT);
+        lessonsLv.setCacheColorHint(Color.TRANSPARENT);
+
+        lessonsLv.setCacheColorHint(Color.TRANSPARENT);
 
         spnrTeachers = (Spinner)findViewById(R.id.spnrTeachers);
         spnrGroups = (Spinner) findViewById(R.id.spnrGroups);
-
-
-        final ListView[] allLv = {lvGroup, lvDate, lvSubject, lvTypeOfLesson, lvTeacher, lvRoom};
 
         myDbHelper = new DatabaseHelper(this);
 
@@ -138,21 +117,14 @@ public class MyActivity extends Activity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
                 lessons.clear();
-                for (int k = 0; k < allLv.length; k++)
-                {
-                    allLv[k].setAdapter(new LessonAdapter(getApplicationContext(), lessons, k));
-                }
+
+                lessonsLv.setAdapter(new LessonAdapter(getApplicationContext(), lessons));
+
                 String teacherFromSpinner = spnrTeachers.getSelectedItem().toString();
 
                 Cursor rdrGlobal = myDB.rawQuery("select * from timetable where teacher = ? order by lesson_time", new String[]{teacherFromSpinner});
 
-                while (rdrGlobal.moveToNext())
-                {
-                    Object[] lesson = new Object[6];
-                    for (int k = 0; k < lesson.length; k++)
-                        lesson[k] = rdrGlobal.getString(1 + k);
-                    lessons.add(lesson);
-                }
+                populateLessonList(rdrGlobal);
 
 
             }
@@ -170,21 +142,14 @@ public class MyActivity extends Activity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
                 lessons.clear();
-                for (int k = 0; k < allLv.length; k++)
-                {
-                    allLv[k].setAdapter(new LessonAdapter(getApplicationContext(), lessons, k));
-                }
+
+                lessonsLv.setAdapter(new LessonAdapter(getApplicationContext(), lessons));
+
                 groupFromSpinner = spnrGroups.getSelectedItem().toString();
 
                 Cursor rdrGlobal = myDB.rawQuery("select * from timetable where st_group = ? order by lesson_time", new String[]{groupFromSpinner});
 
-                while (rdrGlobal.moveToNext())
-                {
-                    Object[] lesson = new Object[6];
-                    for (int k = 0; k < lesson.length; k++)
-                        lesson[k] = rdrGlobal.getString(1 + k);
-                    lessons.add(lesson);
-                }
+                populateLessonList(rdrGlobal);
 //
 //                if(!(groupFromSpinner.equals("Оберіть групу: ")))
 //                {
@@ -203,6 +168,28 @@ public class MyActivity extends Activity
             }
         });
 
+    }
+
+    SimpleDateFormat myDateFormat = new SimpleDateFormat("d.M.y h:m");
+    SimpleDateFormat stdDateFormat = new SimpleDateFormat("y-M-d h:m:s");
+
+    private void populateLessonList(Cursor rdrGlobal) {
+        while (rdrGlobal.moveToNext())
+        {
+            Object[] lesson = new Object[6];
+            for (int k = 0; k < lesson.length; k++)
+                    lesson[k] = rdrGlobal.getString(1 + k);
+
+            try
+            {
+                lesson[1] = myDateFormat.format(stdDateFormat.parse(lesson[1].toString()));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            lessons.add(lesson);
+        }
     }
 
 }
