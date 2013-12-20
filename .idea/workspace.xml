@@ -26,14 +26,7 @@
     <option name="TOOL_WINDOW_LOG_LEVEL" value="DEBUG" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afdf9167-fe88-41c3-837c-1d3b747f8b2f" name="Default" comment="Now layout contains single listview instead of multiple listview for every column. Date is formatted according to Ukrainian usual date-time formatting.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/main2.xml" />
-      <change type="DELETED" beforePath="C:\Users\yp\Downloads\Sesiya_FCIT\Sesiya_FCIT\res\layout-land\main.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\yp\Downloads\Sesiya_FCIT\Sesiya_FCIT\res\layout\main.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/Sesiya_FCIT/LessonAdapter.java" afterPath="$PROJECT_DIR$/src/com/example/Sesiya_FCIT/LessonAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/Sesiya_FCIT/MyActivity.java" afterPath="$PROJECT_DIR$/src/com/example/Sesiya_FCIT/MyActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/row.xml" afterPath="$PROJECT_DIR$/res/layout/row.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    <list default="true" id="afdf9167-fe88-41c3-837c-1d3b747f8b2f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Sesiya_FCIT.iws" />
@@ -580,6 +573,11 @@
       <created>1387388866474</created>
       <updated>1387388866474</updated>
     </task>
+    <task id="LOCAL-00001" summary="Now layout contains single listview instead of multiple listview for every column. Date is formatted according to Ukrainian usual date-time formatting.">
+      <created>1387573912483</created>
+      <updated>1387573912483</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
